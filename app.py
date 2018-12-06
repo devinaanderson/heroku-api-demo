@@ -25,15 +25,20 @@ class User(db.Model):
 def home():
     return render_template('home.html')
 
-@app.route('/collections', methods=['DELETE'])
+@app.route('/collections', methods=['POST'])
 def collections():
     email = None
-    if request.method == 'DELETE':
-        email = request.form['email']
+    if request.method == 'POST':
+        email = request.form['text']
         reg = User(email)
-        db.session.delete(reg)
+        db.session.add(reg)
         db.session.commit()
         return render_template('success.html')
+    # else if if request.method == 'DELETE':
+    #     email = request.form['text']
+    #     reg = User(email)
+    #     db.session.delete(reg)
+    #     db.session.commit()
     return render_template('home.html')
 
 @app.route('/return_emails', methods=['GET'])
